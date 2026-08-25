@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nuestros 2 años</title>
+<style>
+  :root{
+    --rosa: #ff6b8b;
+    --rosa-oscuro: #d94867;
+    --crema: #fff5f2;
+    --texto: #4a2c34;
+  }
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  body{
+    font-family: 'Georgia', serif;
+    background: var(--crema);
+    color: var(--texto);
+    overflow-x: hidden;
+  }
+
+  /* ---------- PORTADA / CONTADOR ---------- */
+  .portada{
+    min-height: 100vh;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #ffb6c1, #ff6b8b);
+    color:white;
+    position: relative;
+  }
+  .portada h1{
+    font-size: clamp(1.8rem, 6vw, 3rem);
+    margin-bottom: 1rem;
+  }
+  .portada p.subtitulo{
+    font-size: 1.1rem;
+    opacity:.9;
+    margin-bottom: 2.5rem;
+  }
+  .contador{
+    display:flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content:center;
+  }
+  .contador div{
+    background: rgba(255,255,255,.2);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    min-width: 80px;
+  }
+  .contador span{
+    display:block;
+    font-size: 1.8rem;
+    font-weight:bold;
+  }
+  .contador small{
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .scroll-hint{
+    position:absolute;
+    bottom: 2rem;
+    font-size: .9rem;
+    opacity:.85;
+    animation: rebote 2s infinite;
+  }
+  @keyframes rebote{
+    0%,100%{ transform: translateY(0); }
+    50%{ transform: translateY(10px); }
+  }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline-seccion{
+    padding: 4rem 1.5rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .timeline-seccion h2{
+    text-align:center;
+    color: var(--rosa-oscuro);
+    margin-bottom: 3rem;
+    font-size: 1.8rem;
+  }
+  .hito{
+    display:flex;
+    gap: 1.2rem;
+    margin-bottom: 3rem;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .8s ease, transform .8s ease;
+  }
+  .hito.visible{
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .hito-punto{
+    flex-shrink:0;
+    width: 14px;
+    height: 14px;
+    border-radius:50%;
+    background: var(--rosa);
+    margin-top: 6px;
+  }
+  .hito-contenido h3{
+    color: var(--rosa-oscuro);
+    font-size: 1.1rem;
+    margin-bottom: .3rem;
+  }
+  .hito-contenido .fecha{
+    font-size: .85rem;
+    opacity: .65;
+    margin-bottom: .5rem;
+  }
+  .hito-contenido img{
+    width: 100%;
+    max-width: 320px;
+    border-radius: 10px;
+    margin-top: .6rem;
+    display:block;
+  }
+
+  /* ---------- CARTA ---------- */
+  .carta-seccion{
+    background: white;
+    padding: 4rem 1.5rem;
+    text-align:center;
+  }
+  .carta-seccion h2{
+    color: var(--rosa-oscuro);
+    margin-bottom: 2rem;
+  }
+  #carta-texto{
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 1.15rem;
+    line-height: 1.9;
+    text-align: left;
+    white-space: pre-wrap;
+    min-height: 200px;
+  }
+  .cursor{
+    display:inline-block;
+    width: 2px;
+    background: var(--texto);
+    animation: parpadeo 1s infinite;
+  }
+  @keyframes parpadeo{
+    0%,100%{ opacity:1; }
+    50%{ opacity:0; }
+  }
+
+  /* ---------- CIERRE ---------- */
+  .cierre{
+    min-height: 100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background: linear-gradient(135deg, var(--rosa-oscuro), #ff6b8b);
+    color:white;
+    padding: 2rem;
+    position:relative;
+    overflow:hidden;
+  }
+  .cierre h2{
+    font-size: clamp(1.8rem, 6vw, 2.8rem);
+    margin-bottom: .8rem;
+  }
+  .cierre p{
+    font-size: 1.1rem;
+    opacity:.9;
+  }
+  .corazon-flotante{
+    position:absolute;
+    top: -10%;
+    font-size: 1.5rem;
+    animation: caer linear infinite;
+    opacity:.8;
+  }
+  @keyframes caer{
+    to{ transform: translateY(110vh) rotate(360deg); }
+  }
+</style>
+</head>
+<body>
+
+  <!-- PORTADA CON CONTADOR -->
+  <section class="portada">
+    <h1>Nuestro 2° aniversario ❤️</h1>
+    <p class="subtitulo">Hace exactamente...</p>
+    <div class="contador" id="contador">
+      <div><span id="anios">0</span><small>Años</small></div>
+      <div><span id="dias">0</span><small>Días</small></div>
+      <div><span id="horas">0</span><small>Horas</small></div>
+      <div><span id="minutos">0</span><small>Min</small></div>
+      <div><span id="segundos">0</span><small>Seg</small></div>
+    </div>
+    <p class="scroll-hint">↓ deslizá para ver más ↓</p>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="timeline-seccion">
+    <h2>Nuestra historia</h2>
+
+    <div class="hito">
+      <div class="hito-punto"></div>
+      <div class="hito-contenido">
+        <h3> PRIMERA VEZ QUE HABLAMOS </h3>
+        <div class="fecha">30 de junio de 2024</div>
+        <p>Descripción corta del momento.</p>
+        <img src="/home/feli/Downloads/primerconversacion.jpg" alt="primerconversacion">
+      </div>
+    </div>
+
+    <div class="hito">
+      <div class="hito-punto"></div>
+      <div class="hito-contenido">
+        <h3> PRIMER LLAMADA </h3>
+        <div class="fecha">6 de julio de 2024</div>
+        <p>Descripción corta del momento.</p>
+        <img src="blob:https://web.whatsapp.com/fa0d05ab-ae55-4354-8ea6-885c6b46c308" alt="primerllamada">
+      </div>
+    </div>
+
+    <div class="hito">
+      <div class="hito-punto"></div>
+      <div class="hito-contenido">
+        <h3> PRIMER SALIDA </h3>
+        <div class="fecha">19 de agosto del 2024</div>
+        <p>Descripción corta del momento.</p>
+        <img src="blob:https://web.whatsapp.com/071a5541-ceb0-424a-af7b-4f2612f02ea9" alt="primersalida">
+    </div>
+
+    <div class="hito">
+      <div class="hito-punto"></div>
+      <div class="hito-contenido">
+        <h3> CUANDO TE PEDI SER MI NOVIA </h3>
+        <div class="fecha">30 de agosto de 2024</div>
+        <p>Descripción corta del momento.</p>
+        <img src="blob:https://web.whatsapp.com/e459ae37-046a-4378-91c3-ab59d689065d" alt="somosnobio">
+      </div>
+    </div>
+
+    <div class="hito">
+        <div class="hito-punto"></div>
+        <div class="hito-contenido">
+            <h3> PRIMER SALIDA COMO NOVIOS </h3>
+            <div class="fecha">15 de septiembre de 2024</div>
+            <p>descripcioncortadelmomento</p>
+            <img src="blob:https://web.whatsapp.com/1a2de175-3627-4481-8042-e90c4044f1e8" alt="primersalidadenobios">
+        </div>
+    </div>
+
+    <!-- Copiá y pegá un bloque .hito más arriba si querés agregar más hitos -->
+
+  </section>
+
+  <!-- CARTA -->
+  <section class="carta-seccion">
+    <h2>Para vos</h2>
+    <p id="carta-texto"></p>
+  </section>
+
+  <!-- CIERRE -->
+  <section class="cierre" id="cierre">
+    <h2>Feliz 2° aniversario</h2>
+    <p>Te amo. Vamos por muchos años más ✨</p>
+  </section>
+
+<script>
+  // ================== CONFIGURACIÓN ==================
+  // Poné la fecha y hora exacta en que empezaron la relación:
+  // formato: año, mes (1-12), día, hora, minuto
+  const inicioRelacion = new Date(2024, 8, 30, 20, 0); // <-- CAMBIAR ESTO
+
+  // Texto de la carta (se escribe solo, efecto máquina de escribir)
+  const textoCarta = `Escribí acá tu carta para ella...
+
+Podés hacer varios párrafos, va a ir apareciendo de a poco, como si se estuviera escribiendo en el momento.
+
+Feliz aniversario, te amo.`;
+  // ====================================================
+
+  // --- Contador en vivo ---
+  function actualizarContador(){
+    const ahora = new Date();
+    let diff = ahora - inicioRelacion; // ms
+
+    const msPorAnio = 1000 * 60 * 60 * 24 * 365.25;
+    const anios = Math.floor(diff / msPorAnio);
+    diff -= anios * msPorAnio;
+
+    const dias = Math.floor(diff / (1000*60*60*24));
+    diff -= dias * (1000*60*60*24);
+
+    const horas = Math.floor(diff / (1000*60*60));
+    diff -= horas * (1000*60*60);
+
+    const minutos = Math.floor(diff / (1000*60));
+    diff -= minutos * (1000*60);
+
+    const segundos = Math.floor(diff / 1000);
+
+    document.getElementById('anios').textContent = anios;
+    document.getElementById('dias').textContent = dias;
+    document.getElementById('horas').textContent = horas;
+    document.getElementById('minutos').textContent = minutos;
+    document.getElementById('segundos').textContent = segundos;
+  }
+  actualizarContador();
+  setInterval(actualizarContador, 1000);
+
+  // --- Animación timeline al hacer scroll ---
+  const hitos = document.querySelectorAll('.hito');
+  const observer = new IntersectionObserver((entradas) => {
+    entradas.forEach(entrada => {
+      if(entrada.isIntersecting){
+        entrada.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.2 });
+  hitos.forEach(h => observer.observe(h));
+
+  // --- Efecto máquina de escribir para la carta ---
+  let cartaEscrita = false;
+  const cartaEl = document.getElementById('carta-texto');
+  function escribirCarta(){
+    if(cartaEscrita) return;
+    cartaEscrita = true;
+    let i = 0;
+    function tick(){
+      if(i <= textoCarta.length){
+        cartaEl.textContent = textoCarta.slice(0, i);
+        i++;
+        setTimeout(tick, 25);
+      }
+    }
+    tick();
+  }
+  const cartaSeccion = document.querySelector('.carta-seccion');
+  const observerCarta = new IntersectionObserver((entradas) => {
+    entradas.forEach(entrada => {
+      if(entrada.isIntersecting) escribirCarta();
+    });
+  }, { threshold: 0.3 });
+  observerCarta.observe(cartaSeccion);
+
+  // --- Corazones cayendo en el cierre ---
+  const cierre = document.getElementById('cierre');
+  function crearCorazon(){
+    const corazon = document.createElement('div');
+    corazon.className = 'corazon-flotante';
+    corazon.textContent = ['❤️','💕','💖','✨'][Math.floor(Math.random()*4)];
+    corazon.style.left = Math.random()*100 + '%';
+    corazon.style.animationDuration = (4 + Math.random()*4) + 's';
+    corazon.style.fontSize = (1 + Math.random()*1.5) + 'rem';
+    cierre.appendChild(corazon);
+    setTimeout(() => corazon.remove(), 8000);
+  }
+  const observerCierre = new IntersectionObserver((entradas) => {
+    entradas.forEach(entrada => {
+      if(entrada.isIntersecting){
+        setInterval(crearCorazon, 400);
+      }
+    });
+  }, { threshold: 0.3 });
+  observerCierre.observe(cierre);
+</script>
+
+</body>
+</html>
