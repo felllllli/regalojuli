@@ -20,7 +20,7 @@
     overflow-x: hidden;
   }
 
-  /* ---------- PORTADA / CONTADOR ---------- */
+  
   .portada{
     min-height: 100vh;
     display:flex;
@@ -76,7 +76,7 @@
     50%{ transform: translateY(10px); }
   }
 
-  /* ---------- TIMELINE ---------- */
+  
   .timeline-seccion{
     padding: 4rem 1.5rem;
     max-width: 700px;
@@ -126,7 +126,7 @@
     display:block;
   }
 
-  /* ---------- CARTA ---------- */
+  
   .carta-seccion{
     background: white;
     padding: 4rem 1.5rem;
@@ -156,7 +156,7 @@
     50%{ opacity:0; }
   }
 
-  /* ---------- CIERRE ---------- */
+  
   .cierre{
     min-height: 100vh;
     display:flex;
@@ -192,7 +192,7 @@
 </head>
 <body>
 
-  <!-- PORTADA CON CONTADOR -->
+  
   <section class="portada">
     <h1>Nuestro 2° aniversario ❤️</h1>
     <p class="subtitulo">Hace exactamente...</p>
@@ -206,7 +206,7 @@
     <p class="scroll-hint">↓ deslizá para ver más ↓</p>
   </section>
 
-  <!-- TIMELINE -->
+  
   <section class="timeline-seccion">
     <h2>Nuestra historia</h2>
 
@@ -215,7 +215,7 @@
       <div class="hito-contenido">
         <h3> PRIMERA VEZ QUE HABLAMOS </h3>
         <div class="fecha">30 de junio de 2024</div>
-        <p>Descripción corta del momento.</p>
+        <p>cuando te escribi haciendome el que no sabia lo que era answer porque te queria hablar ajajk te AMO pochi</p>
         <img src="primerconversacion.jpg" alt="primerconversacion">
       </div>
     </div>
@@ -225,7 +225,7 @@
       <div class="hito-contenido">
         <h3> PRIMER LLAMADA </h3>
         <div class="fecha">6 de julio de 2024</div>
-        <p>Descripción corta del momento.</p>
+        <p>no me acuerdo mucho de esa llamada sinceramente. lo unico que me acuerdo de ese dia es que te dije que vivia en la iglesia</p>
         <img src="primerllamada.jpg" alt="primerllamada">
       </div>
     </div>
@@ -235,7 +235,7 @@
       <div class="hito-contenido">
         <h3> PRIMER SALIDA </h3>
         <div class="fecha">19 de agosto del 2024</div>
-        <p>Descripción corta del momento.</p>
+        <p>de las mejores salidas de mi vida. tenia la panza llena de mariposas y estaba re nervioso aiiiii te ano</p>
         <img src="primersalida.jpg" alt="primersalida">
     </div>
 
@@ -244,7 +244,7 @@
       <div class="hito-contenido">
         <h3> CUANDO TE PEDI SER MI NOVIA </h3>
         <div class="fecha">30 de agosto de 2024</div>
-        <p>Descripción corta del momento.</p>
+        <p>y aca estaba mas nervioso todavia me estaba cagando encima te juro que nervios</p>
         <img src="pedisersunovio.jpg" alt="somosnobio">
       </div>
     </div>
@@ -254,42 +254,39 @@
         <div class="hito-contenido">
             <h3> PRIMER SALIDA COMO NOVIOS </h3>
             <div class="fecha">15 de septiembre de 2024</div>
-            <p>descripcioncortadelmomento</p>
+            <p>otra de mis salidas favoritas, y ademas, mi primer beso. eternamente feliz de que haya sido contigo</p>
             <img src="primersalidadenovios.jpg" alt="primersalidadenobios">
         </div>
     </div>
 
-    <!-- Copiá y pegá un bloque .hito más arriba si querés agregar más hitos -->
+    
 
   </section>
 
-  <!-- CARTA -->
+  
   <section class="carta-seccion">
-    <h2>Para vos</h2>
+    <h2>cartita caca..</h2>
     <p id="carta-texto"></p>
   </section>
 
-  <!-- CIERRE -->
+  
   <section class="cierre" id="cierre">
     <h2>Feliz 2° aniversario</h2>
     <p>Te amo. Vamos por muchos años más ✨</p>
   </section>
 
 <script>
-  // ================== CONFIGURACIÓN ==================
-  // Poné la fecha y hora exacta en que empezaron la relación:
-  // formato: año, mes (1-12), día, hora, minuto
-  const inicioRelacion = new Date(2024, 8, 30, 20, 0); // <-- CAMBIAR ESTO
+  
+  
+  const inicioRelacion = new Date(2024, 8, 30, 1, 14); 
 
-  // Texto de la carta (se escribe solo, efecto máquina de escribir)
+  
   const textoCarta = `Escribí acá tu carta para ella...
 
 Podés hacer varios párrafos, va a ir apareciendo de a poco, como si se estuviera escribiendo en el momento.
 
 Feliz aniversario, te amo.`;
-  // ====================================================
-
-  // --- Contador en vivo ---
+  
   function actualizarContador(){
     const ahora = new Date();
     let diff = ahora - inicioRelacion; // ms
@@ -318,7 +315,7 @@ Feliz aniversario, te amo.`;
   actualizarContador();
   setInterval(actualizarContador, 1000);
 
-  // --- Animación timeline al hacer scroll ---
+  
   const hitos = document.querySelectorAll('.hito');
   const observer = new IntersectionObserver((entradas) => {
     entradas.forEach(entrada => {
@@ -329,7 +326,7 @@ Feliz aniversario, te amo.`;
   }, { threshold: 0.2 });
   hitos.forEach(h => observer.observe(h));
 
-  // --- Efecto máquina de escribir para la carta ---
+  
   let cartaEscrita = false;
   const cartaEl = document.getElementById('carta-texto');
   function escribirCarta(){
@@ -353,7 +350,7 @@ Feliz aniversario, te amo.`;
   }, { threshold: 0.3 });
   observerCarta.observe(cartaSeccion);
 
-  // --- Corazones cayendo en el cierre ---
+  
   const cierre = document.getElementById('cierre');
   function crearCorazon(){
     const corazon = document.createElement('div');
@@ -367,7 +364,7 @@ Feliz aniversario, te amo.`;
   }
   const observerCierre = new IntersectionObserver((entradas) => {
     entradas.forEach(entrada => {
-      if(entrada.isIntersecting){
+      if(entrada.isIntersecting){<!-- Copiá y pegá un bloque .hito más arriba si querés agregar más hitos -->
         setInterval(crearCorazon, 400);
       }
     });
