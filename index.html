@@ -556,7 +556,7 @@ function voltearCarta(carta){
         paresEncontrados++;
         if(paresEncontrados === fotosJuego.length){
           clearInterval(cronometro);
-          mensajeEl.textContent = `¡ganaste en ${movimientos} movimientos y ${segundosJuego}s! farmias aura te amo`;
+          mensajeEl.textContent = `¡ganaste en ${movimientos} movimientos y ${segundosJuego} segundos! farmias aura te amo`;
           botonReiniciar.classList.add('visible');
         }
       }, 600);
