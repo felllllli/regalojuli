@@ -356,19 +356,19 @@
   <section class="cierre" id="cierre">
     <h2>Feliz 2° aniversario</h2>
     <p>❤️ te amo. vamos por muchos años mas ❤️</p>
-    <a href="#juego" class="boton-juego">¿Te animás a un desafío? 💕</a>
+    <a href="#juego" class="boton-juego">qeres jugar algo? ejeje</a>
   </section>
 
   <section class="juego-seccion" id="juego">
-  <h2>Memotest de nuestras fotos</h2>
-  <p class="juego-subtitulo">Encontrá las parejas. A ver si nos conocés tan bien como decís 😏</p>
+  <h2>juego de memoria jijiiiii</h2>
+  <p class="juego-subtitulo">enctontra las fotos y eso jeje</p>
   <div class="juego-info">
     <div>⏱️ <span id="tiempo">0</span>s</div>
     <div>🔄 <span id="movimientos">0</span> movimientos</div>
   </div>
   <div class="tablero" id="tablero"></div>
   <p id="mensaje-victoria" class="mensaje-victoria"></p>
-  <button id="reiniciar-juego" class="boton-juego boton-reiniciar">Jugar de nuevo</button>
+  <button id="reiniciar-juego" class="boton-juego boton-reiniciar">jugar de nuevo</button>
 </section>
 
 <script>
@@ -463,13 +463,13 @@
   }, { threshold: 0.3 });
   observerCierre.observe(cierre);
 
-// --- Memotest ---
 const fotosJuego = [
-  'primerconversacion.jpg',
-  'primerllamada.jpg',
-  'primersalida.jpg',
-  'pedisersunovio.jpg',
-  'primersalidadenovios.jpg'
+  'julipochi.jpg',
+  'aurafeli.jpg',
+  'auramama.jpg',
+  'auramarisol.jpg',
+  'aurapochi.jpg',
+  'corasonfeli.jpg'
 ];
 
 const tablero = document.getElementById('tablero');
@@ -556,7 +556,7 @@ function voltearCarta(carta){
         paresEncontrados++;
         if(paresEncontrados === fotosJuego.length){
           clearInterval(cronometro);
-          mensajeEl.textContent = `¡Ganaste en ${movimientos} movimientos y ${segundosJuego}s! Sos lo más 💕`;
+          mensajeEl.textContent = `¡ganaste en ${movimientos} movimientos y ${segundosJuego}s! farmias aura te amo`;
           botonReiniciar.classList.add('visible');
         }
       }, 600);
