@@ -188,6 +188,89 @@
   @keyframes caer{
     to{ transform: translateY(110vh) rotate(360deg); }
   }
+
+.boton-juego{
+  display:inline-block;
+  margin-top: 2rem;
+  background: white;
+  color: var(--rosa-oscuro);
+  text-decoration:none;
+  padding: .9rem 1.8rem;
+  border-radius: 30px;
+  font-weight:bold;
+  font-size: 1rem;
+  border: none;
+  cursor:pointer;
+  transition: transform .2s ease;
+}
+.boton-juego:hover{ transform: scale(1.05); }
+
+.juego-seccion{
+  min-height: 100vh;
+  background: var(--crema);
+  padding: 4rem 1.5rem;
+  text-align:center;
+}
+.juego-seccion h2{ color: var(--rosa-oscuro); margin-bottom: .5rem; }
+.juego-subtitulo{ opacity:.75; margin-bottom: 1.5rem; }
+.juego-info{
+  display:flex;
+  justify-content:center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  font-weight:bold;
+  color: var(--rosa-oscuro);
+}
+.tablero{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: .7rem;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.carta{
+  aspect-ratio: 1;
+  background: var(--rosa);
+  border-radius: 10px;
+  cursor:pointer;
+  position:relative;
+  perspective: 600px;
+}
+.carta-interior{
+  position:absolute;
+  inset:0;
+  transform-style: preserve-3d;
+  transition: transform .5s;
+}
+.carta.volteada .carta-interior,
+.carta.encontrada .carta-interior{ transform: rotateY(180deg); }
+.carta-frente, .carta-dorso{
+  position:absolute;
+  inset:0;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.carta-dorso{
+  background: linear-gradient(135deg, var(--rosa), var(--rosa-oscuro));
+  color:white;
+  font-size: 1.8rem;
+}
+.carta-frente{ background: white; transform: rotateY(180deg); }
+.carta-frente img{ width:100%; height:100%; object-fit: cover; }
+.carta.encontrada{ outline: 3px solid var(--rosa-oscuro); outline-offset: 2px; }
+.mensaje-victoria{
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  font-weight:bold;
+  color: var(--rosa-oscuro);
+  min-height: 1.8rem;
+}
+.boton-reiniciar{ background: var(--rosa-oscuro); color:white; margin-top: 1rem; display:none; }
+.boton-reiniciar.visible{ display:inline-block; }
 </style>
 </head>
 <body>
@@ -273,7 +356,20 @@
   <section class="cierre" id="cierre">
     <h2>Feliz 2° aniversario</h2>
     <p>❤️ te amo. vamos por muchos años mas ❤️</p>
+    <a href="#juego" class="boton-juego">¿Te animás a un desafío? 💕</a>
   </section>
+
+  <section class="juego-seccion" id="juego">
+  <h2>Memotest de nuestras fotos</h2>
+  <p class="juego-subtitulo">Encontrá las parejas. A ver si nos conocés tan bien como decís 😏</p>
+  <div class="juego-info">
+    <div>⏱️ <span id="tiempo">0</span>s</div>
+    <div>🔄 <span id="movimientos">0</span> movimientos</div>
+  </div>
+  <div class="tablero" id="tablero"></div>
+  <p id="mensaje-victoria" class="mensaje-victoria"></p>
+  <button id="reiniciar-juego" class="boton-juego boton-reiniciar">Jugar de nuevo</button>
+</section>
 
 <script>
   
@@ -366,6 +462,117 @@
     });
   }, { threshold: 0.3 });
   observerCierre.observe(cierre);
+
+// --- Memotest ---
+const fotosJuego = [
+  'primerconversacion.jpg',
+  'primerllamada.jpg',
+  'primersalida.jpg',
+  'pedisersunovio.jpg',
+  'primersalidadenovios.jpg'
+];
+
+const tablero = document.getElementById('tablero');
+const tiempoEl = document.getElementById('tiempo');
+const movimientosEl = document.getElementById('movimientos');
+const mensajeEl = document.getElementById('mensaje-victoria');
+const botonReiniciar = document.getElementById('reiniciar-juego');
+
+let cartasVolteadas = [];
+let paresEncontrados = 0;
+let movimientos = 0;
+let segundosJuego = 0;
+let cronometro = null;
+let bloqueado = false;
+
+function barajar(array){
+  const copia = [...array];
+  for(let i = copia.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [copia[i], copia[j]] = [copia[j], copia[i]];
+  }
+  return copia;
+}
+
+function iniciarJuego(){
+  tablero.innerHTML = '';
+  cartasVolteadas = [];
+  paresEncontrados = 0;
+  movimientos = 0;
+  segundosJuego = 0;
+  bloqueado = false;
+  movimientosEl.textContent = '0';
+  tiempoEl.textContent = '0';
+  mensajeEl.textContent = '';
+  botonReiniciar.classList.remove('visible');
+  clearInterval(cronometro);
+
+  const mazo = barajar([...fotosJuego, ...fotosJuego]);
+
+  mazo.forEach((foto) => {
+    const carta = document.createElement('div');
+    carta.className = 'carta';
+    carta.dataset.foto = foto;
+    carta.innerHTML = `
+      <div class="carta-interior">
+        <div class="carta-dorso">❤️</div>
+        <div class="carta-frente"><img src="${foto}" alt=""></div>
+      </div>
+    `;
+    carta.addEventListener('click', () => voltearCarta(carta));
+    tablero.appendChild(carta);
+  });
+}
+
+function empezarCronometro(){
+  if(cronometro) return;
+  cronometro = setInterval(() => {
+    segundosJuego++;
+    tiempoEl.textContent = segundosJuego;
+  }, 1000);
+}
+
+function voltearCarta(carta){
+  if(bloqueado) return;
+  if(carta.classList.contains('volteada') || carta.classList.contains('encontrada')) return;
+  if(cartasVolteadas.length === 2) return;
+
+  empezarCronometro();
+  carta.classList.add('volteada');
+  cartasVolteadas.push(carta);
+
+  if(cartasVolteadas.length === 2){
+    movimientos++;
+    movimientosEl.textContent = movimientos;
+    bloqueado = true;
+
+    const [c1, c2] = cartasVolteadas;
+    if(c1.dataset.foto === c2.dataset.foto){
+      setTimeout(() => {
+        c1.classList.add('encontrada');
+        c2.classList.add('encontrada');
+        cartasVolteadas = [];
+        bloqueado = false;
+        paresEncontrados++;
+        if(paresEncontrados === fotosJuego.length){
+          clearInterval(cronometro);
+          mensajeEl.textContent = `¡Ganaste en ${movimientos} movimientos y ${segundosJuego}s! Sos lo más 💕`;
+          botonReiniciar.classList.add('visible');
+        }
+      }, 600);
+    } else {
+      setTimeout(() => {
+        c1.classList.remove('volteada');
+        c2.classList.remove('volteada');
+        cartasVolteadas = [];
+        bloqueado = false;
+      }, 900);
+    }
+  }
+}
+
+botonReiniciar.addEventListener('click', iniciarJuego);
+iniciarJuego();
 </script>
 
 </body>
